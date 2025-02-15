@@ -1,0 +1,6 @@
+.image_background {
+    background-image: url("../../../public/images/pj3_samuFe.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}

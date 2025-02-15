@@ -1,6 +1,6 @@
 @vite('resources/css/user_styles/register_styles.css')
 @vite('resources/js/btn-reset.js')
-<main class="main__register">
+<main class="main__register image_background">
     <form class="register__register_form {{ $errors->any() ? 'register__register_form-error' : '' }}" action="{{ route('user.doRegister') }}" method="post" id="register-form">
         @csrf
         <div class="form-group">

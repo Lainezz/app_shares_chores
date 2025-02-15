@@ -18,4 +18,5 @@
 @vite('resources/css/partials_styles/font_styles.css')
 @vite('resources/css/partials_styles/footer_styles.css')
 @vite('resources/css/partials_styles/header_styles.css')
+@vite('resources/css/partials_styles/utilities_styles.css')
 @vite('resources/js/datepickerinitialzr.js')

@@ -12,6 +12,8 @@
     <!-- HEADER -->
     @include('partials.header')
 
+    @include('partials.main-home')
+
     <!-- FOOTER -->
     @include('partials.footer')
 </body>

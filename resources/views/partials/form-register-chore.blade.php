@@ -1,7 +1,7 @@
 @vite('resources/css/chore_styles/register_styles.css')
 @vite('resources/js/btn-reset.js')
 <main class="main__register">
-    @if(isset($success)) CHORE DADA DE ALTA  @endif
+    @if(isset($success)) CHORE DADA DE ALTA @endif
     <form class="register__register_form {{ $errors->any() ? 'register__register_form-error' : '' }}" action="{{ route('chore.doRegister', ['userId' => auth()->user()->id]) }}" method="post">
         @csrf
         <div class="form-group">

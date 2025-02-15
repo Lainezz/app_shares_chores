@@ -4,6 +4,7 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+    border-top: 2px solid black
 }
 
 .footer__div_logo {

@@ -1,5 +1,5 @@
 @vite('resources/css/user_styles/login_styles.css')
-<main class="main__login">
+<main class="main__login image_background">
     <form class="login__login_form {{ $errors->any() ? 'login__login_form-error' : '' }}" action="{{ route('user.showLogin') }}" method="post">
         @csrf
         <div class="form-group">
