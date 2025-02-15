@@ -8,7 +8,13 @@
 }
 
 .footer__div_logo {
+    height: 2em;
+    width: 2em;
+}
 
+.div_logo__img {
+    height: 100%;
+    width: auto;
 }
 
 .footer__div_info {

@@ -10,8 +10,9 @@
 
 }
 
-.header__div_logo {
-
+.div_logo__a {
+    text-decoration: none;
+    color: inherit;
 }
 
 .header__navigation {
@@ -42,5 +43,16 @@
 
 .navigation__a:hover {
     background-color: #669bbc;
+}
+
+.navigation__div {
+    background-color: #003049;
+    height: 100%;
+    min-width: 5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 1em;
+    padding-right: 1em;
 }
 

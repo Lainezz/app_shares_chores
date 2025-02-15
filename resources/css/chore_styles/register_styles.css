@@ -34,3 +34,7 @@
 .register_form__input_error {
     color: #780000;
 }
+
+.register__chore_inserted {
+    color: green;
+}

@@ -1,11 +1,15 @@
 @vite('resources/css/chore_styles/register_styles.css')
 @vite('resources/js/btn-reset.js')
 <main class="main__register">
-    @if(isset($success)) CHORE DADA DE ALTA @endif
+    @if(isset($success))
+        <div class="register__chore_inserted">
+            CHORE INSERTED, GOOD LUCK!!
+        </div>
+    @endif
     <form class="register__register_form {{ $errors->any() ? 'register__register_form-error' : '' }}" action="{{ route('chore.doRegister', ['userId' => auth()->user()->id]) }}" method="post">
         @csrf
         <div class="form-group">
-            <label for="name">Name:</label>
+            <label for="name">Title:</label>
             <input class="form-control @error('name') register_form__input_error @enderror" type="text" name="name" placeholder="Enter title of the chore" value="{{old('name')}}">
             @error('name') <small class="register_form__error">{{ $message }}</small> @enderror
         </div>
@@ -21,7 +25,7 @@
                 id="input_fecha"
                 name="due_date"
                 aria-describedby="due date"
-                placeholder="Insert the due date for chore">
+                placeholder="Insert the due date for the chore">
             @error('due_date') <small class="register_form__error">{{ $message }}</small> @enderror
         </div>
         <div class="form-group d-flex justify-content-center gap-3">
