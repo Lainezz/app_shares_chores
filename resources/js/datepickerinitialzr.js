@@ -1,4 +1,4 @@
-flatpickr("#input_fecha_cita", {
+flatpickr("#input_fecha", {
     enableTime: true,
     minDate: "today",
     altInput: true,

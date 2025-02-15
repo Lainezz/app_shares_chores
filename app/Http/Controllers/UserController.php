@@ -9,6 +9,24 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    // Logout
+    public function doLogout() {
+        Auth::logout();
+        return redirect()->route('user.showLogin');
+    }
+    
+    // Show index
+    public function showIndex($id) {
+        
+        if($id == "") {
+            return redirect()->route('user.showLogin');
+        }
+        
+        $user = User::find($id);
+        $chores = $user->chores()->get();
+        return view('user_views.index', compact('chores', 'user')); // CARGA LA VIEW PRINCIPAL CON LA INFO DEL USUARIO
+    }
+    
     //Show login form
     public function showLogin() {
         return view('user_views.login'); // CARGA LA VIEW DE LOGIN PARA PODER REALIZAR LOGIN
@@ -27,18 +45,10 @@ class UserController extends Controller
 
         // SI LOS DATOS SON INVÁLIDOS, DEVOLVER A LA PÁGINA ANTERIOR E IMPRIMIR LOS ERRORES DE VALIDACIÓN
         if ($validator->fails()) {
-            return redirect()->route('login')->withErrors($validator)->withInput();
+            return redirect()->route('user.showLogin')->withErrors($validator)->withInput();
         }
 
         // SI EL LOGIN ES INCORRECTO, DEVOLVER A LA PÁGINA ANTERIOR E IMPRIMIR LOS ERRORES DE VALIDACIÓN
-        $userEmail = $request->get('email');
-        $userPassword = $request->get('password');
-        $user = User::where('email', $userEmail)->first();
-        if(!password_verify($userPassword, $user->password)) {
-            $validator->errors()->add('credentials', 'Credenciales incorrectas');
-            return redirect()->route('login')->withErrors($validator)->withInput();
-        }
-
         // SI LOS DATOS SON VÁLIDOS (SI EL LOGIN ES CORRECTO) CARGAR LA VISTA PRINCIPAL DEL USUARIO.
         // LA VISTA PRINCIPAL DE USUARIO DEBE INCLUIR:
         /*
@@ -49,15 +59,21 @@ class UserController extends Controller
             -> Un botón al lado de cada tarea para eliminar la tarea.
             -> Un botón para marcar como hecha la tarea.
         */
-        $credentials = [
-            'email' => $user->email,
+        $userEmail = $request->get('email');
+        $userPassword = $request->get('password');
+        
+        $emailYPasswordUser = [
+            'email' => $userEmail,
             'password' => $userPassword,
         ];
-        if (Auth::attempt($credentials)) { // Auth::attempt crea una session en la BD con las credenciales que le pases
+        if (Auth::attempt($emailYPasswordUser, true)) { // Auth::attempt busca al usuario en la base de datos y, si las credenciales son correctas, devuelve true y además crea una Session en la BD
             $request->session()->regenerate();
-            
-            $chores = $user->chores()->get();
-            return view('user_views.index', compact('chores', 'user')); // CARGA LA VIEW PRINCIPAL CON LA INFO DEL USUARIO
+
+            $user = User::where('email', $userEmail)->first();
+            return redirect()->route('user.showIndex', ['id' => $user->id]); // CARGA LA VIEW PRINCIPAL CON LA INFO DEL USUARIO
+        } else {
+            $validator->errors()->add('credentials', 'Credenciales incorrectas');
+            return redirect()->route('user.showLogin')->withErrors($validator)->withInput();
         }
         
     }
@@ -93,7 +109,7 @@ class UserController extends Controller
 
         // SI LOS DATOS SON INVÁLIDOS, DEVOLVER A LA PÁGINA ANTERIOR E IMPRIMIR LOS ERRORES DE VALIDACIÓN
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
+            return redirect()->back()->withErrors($validator)->withInput();
         }
         
         // SI LOS DATOS SON VÁLIDOS (SI EL REGISTRO SE HA REALIZADO CORRECTAMENTE) CARGAR LA VIEW DE LOGIN PARA PODER REALIZAR LOGIN
@@ -104,6 +120,6 @@ class UserController extends Controller
         $user->password = $datosUsuario['password'];
         $user->save();
 
-        return view('user_views.login'); // CARGA LA VIEW DE LOGIN PARA PODER REALIZAR LOGIN
+        return redirect()->route('user_views.login'); // CARGA LA VIEW DE LOGIN PARA PODER REALIZAR LOGIN
     }
 }
